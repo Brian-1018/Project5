@@ -26,35 +26,134 @@ _syscallStart_:
 #Do init stuff
 _syscall0:
     # Initialization goes here
+    addi $sp, $sp, -4096
+    la $k1, _END_OF_STATIC_MEMORY_
     j _syscallEnd_
 
 #Print Integer
 _syscall1:
     # Print Integer code goes here
+    addi $sp, $sp, -8 # allocate space on stack for 2 registers
+    sw $t0, 0($sp) # save t0 on the stack
+    sw $t1, 4($sp) # save t1 on the stack
+
+    addi $t1, $0, 0 #t1 =0
+    bne $a0, $0 notzero # if a0 is not zero
+    addi $t0, $0, 48 # t0 = ascii 0
+    sw $t0, -256($0) # print 0
+    j endprintint
+
+    notzero:
+    slt $t0, $a0, $0 # t0 = 1 if a0<0 negative
+    beq $t0, $0 mainprintintloop # if t0=0, not negative, go to main loop
+    addi $t0, $0, 45 #ASCII for -
+    sw $t0, -256($0) # print - to terminal
+
+    mainprintintloop:
+    addi $t0, $0, 10 #t0=10
+    div $a0, $t0 # HI a0%10, Lo = a0//10
+    mflo $a0 # puts rest in a0
+    mfhi $t0 # remainder, rightmost in t0
+    beq $a0, $0 actualprint
+    addi $t1, $t1, 1 #t1++ counter of digits
+    addi $sp, $sp, -4 #allocate space for 1 int
+    sw $t0, 0($sp) # save it on stack
+    j mainprintintloop
+
+    actualprint:
+    addi $t0, $t0, 48 # ASCII
+    sw $t0, -256($0) #print to terminal
+    beq $t1, $0, endprintint # when everything is gotten
+    lw $t0, 0($sp) #get next digit from stack
+    addi $sp, $sp, 4 # deallocate
+    addi $t1, $t1, -1
+    j actualprint
+
+    endprintint:
+    lw $t0, 0($sp) # get t0 back from mem
+    lw $t1, 4($sp) # save t0 on the stack
+    addi $sp, $sp, 8 #deallocate stack
     jr $k0
 
 #Read Integer
 _syscall5:
     # Read Integer code goes here
+    addi $sp, $sp, -16 # allocate space on stack for 4 registers
+    sw $t0, 0($sp) # save t0 on the stack
+    sw $t1, 4($sp) # save t1 on the stack
+    sw $t2, 8($sp) # save t2 on the stack
+    sw $t3, 12($sp) # save t3 on the stack
+
+    getint:
+        lw $t0, -240($v0) # checks if any input to keyboard
+        bne $t0, $0, gotint # if yes, leave
+        j getint   # loop until input
+    gotint:
+
+    lw $t0, -236($0) # puts first char in t0
+    addi $v0, $0, 0 # v0 = 0
+    addi $t1, $0, 45 # ASCII for -
+    addi $t3, $0, 1 # t3 = 1
+
+    bne $t0, $t1, mainreadintloop # start if not negative
+    addi $t3, $0, -1 # t3 = -1 if negative
+
+    mainreadintloop:
+    addi $t1, $0, 58 # above ASCII 9
+    slt $t2, $t0, $t1 # t2=1 if t0<t1, input <58
+    beq $t2, $0 endreadint
+
+    addi $t1, $0, 48 # below ASCII 0
+    slt $t2, $t0, $t1 # t2=1 if t0<t1, input < 48
+    bne $t2, $0 endreadint
+
+    addi $t2, $0, 10 #t2=10
+    mult $v0, $t2 # shifts decimals to left
+    mflo $v0
+    addi $t0, $t0, -48 # converts ascii to int
+    add $v0, $v0, $t0 #adds next digit to v0
+
+    sw $0, -240($0) # read next int
+    j mainreadintloop # start again
+
+    endreadint:
+    mult $v0, $t3 # mult result by t3, making it negative if needed
+    mflo $v0 # gets it
+    lw $t0, 0($sp) # get t0 back from mem
+    lw $t1, 4($sp) # save t0 on the stack
+    lw $t2, 8($sp) # save t0 on the stack
+    lw $t3, 12($sp) # save t3 on the stack
+    addi $sp, $sp, 16 #deallocate stack
     jr $k0
 
 #Heap allocation
 _syscall9:
     # Heap allocation code goes here
+    add $k1, $k1, $a0 # allocates enough memory
+    addi $v0, $k1, 0 #sets v0 to that address
     jr $k0
 
 #"End" the program
 _syscall10:
     j _syscall10
 
+
 #print character
 _syscall11:
     # print character code goes here
+    sw $a0, -256($0) # writes ASCII to terminal
     jr $k0
 
 #read character
 _syscall12:
     # read character code goes here
+    getchar:
+        lw $v0, -240($v0) # checks if any input to keyboard
+        bne $v0, $0, gotchar # if yes, leave
+        j getchar   # loop until input
+    gotchar:
+    lw $v0, -236($0) # gets the ASCII value
+    sw $0, -240($0) # takes in character
     jr $k0
 
 #extra challenge syscalls go here?
