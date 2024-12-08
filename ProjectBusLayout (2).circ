@@ -107,6 +107,9 @@
       <a name="facing" val="north"/>
     </comp>
     <comp lib="0" loc="(1360,1190)" name="Clock"/>
+    <comp lib="0" loc="(1430,1790)" name="Constant"/>
+    <comp lib="0" loc="(1440,1750)" name="Constant"/>
+    <comp lib="0" loc="(1440,1830)" name="Constant"/>
     <comp lib="0" loc="(350,520)" name="Clock"/>
     <comp lib="0" loc="(720,800)" name="Clock"/>
     <comp lib="1" loc="(910,490)" name="Controlled Buffer">
@@ -120,14 +123,14 @@
     </comp>
     <comp lib="10" loc="(1360,1400)" name="Buzzer"/>
     <comp lib="10" loc="(1380,1190)" name="Digital Oscilloscope"/>
-    <comp lib="10" loc="(1430,1690)" name="Buzzer">
+    <comp lib="10" loc="(1450,1750)" name="Buzzer">
       <a name="waveform" val="Square"/>
     </comp>
-    <comp lib="10" loc="(1430,1870)" name="Buzzer">
+    <comp lib="10" loc="(1450,1790)" name="Buzzer">
+      <a name="waveform" val="Square"/>
+    </comp>
+    <comp lib="10" loc="(1450,1830)" name="Buzzer">
       <a name="waveform" val="Triangle"/>
-    </comp>
-    <comp lib="10" loc="(1440,1780)" name="Buzzer">
-      <a name="waveform" val="Square"/>
     </comp>
     <comp lib="4" loc="(350,450)" name="RAM">
       <a name="addrWidth" val="24"/>
@@ -160,6 +163,7 @@
     <comp loc="(1220,1210)" name="OsciController"/>
     <comp loc="(1240,1030)" name="RGBController"/>
     <comp loc="(1240,370)" name="TerminalController"/>
+    <comp loc="(1300,1740)" name="SpeakerController"/>
     <comp loc="(1310,1370)" name="BuzzerController"/>
     <comp loc="(1310,1500)" name="LEDMatrixController"/>
     <comp loc="(840,650)" name="CPUmain"/>
@@ -201,6 +205,12 @@
     <wire from="(1270,980)" to="(1270,1070)"/>
     <wire from="(1280,1010)" to="(1280,1090)"/>
     <wire from="(1280,370)" to="(1280,640)"/>
+    <wire from="(1300,1740)" to="(1450,1740)"/>
+    <wire from="(1300,1760)" to="(1450,1760)"/>
+    <wire from="(1300,1780)" to="(1450,1780)"/>
+    <wire from="(1300,1800)" to="(1450,1800)"/>
+    <wire from="(1300,1820)" to="(1450,1820)"/>
+    <wire from="(1300,1840)" to="(1450,1840)"/>
     <wire from="(1310,1370)" to="(1360,1370)"/>
     <wire from="(1310,1390)" to="(1340,1390)"/>
     <wire from="(1310,1400)" to="(1310,1410)"/>
@@ -230,7 +240,10 @@
     <wire from="(1400,1300)" to="(1400,1310)"/>
     <wire from="(1410,1300)" to="(1410,1320)"/>
     <wire from="(1430,1530)" to="(1430,1540)"/>
+    <wire from="(1430,1790)" to="(1450,1790)"/>
     <wire from="(1440,1530)" to="(1440,1550)"/>
+    <wire from="(1440,1750)" to="(1450,1750)"/>
+    <wire from="(1440,1830)" to="(1450,1830)"/>
     <wire from="(1450,1530)" to="(1450,1560)"/>
     <wire from="(1460,1530)" to="(1460,1580)"/>
     <wire from="(310,420)" to="(310,540)"/>
@@ -300,7 +313,7 @@
     <wire from="(950,1370)" to="(950,1540)"/>
     <wire from="(950,1540)" to="(1090,1540)"/>
     <wire from="(950,1540)" to="(950,1740)"/>
-    <wire from="(950,1740)" to="(1040,1740)"/>
+    <wire from="(950,1740)" to="(1080,1740)"/>
     <wire from="(950,1740)" to="(950,1910)"/>
     <wire from="(950,330)" to="(950,410)"/>
     <wire from="(950,410)" to="(1020,410)"/>
@@ -316,7 +329,7 @@
     <wire from="(960,1410)" to="(960,1520)"/>
     <wire from="(960,1520)" to="(1090,1520)"/>
     <wire from="(960,1520)" to="(960,1780)"/>
-    <wire from="(960,1780)" to="(1040,1780)"/>
+    <wire from="(960,1780)" to="(1080,1780)"/>
     <wire from="(960,1780)" to="(960,1910)"/>
     <wire from="(960,310)" to="(960,390)"/>
     <wire from="(960,390)" to="(1020,390)"/>
@@ -332,7 +345,7 @@
     <wire from="(970,1390)" to="(970,1500)"/>
     <wire from="(970,1500)" to="(1090,1500)"/>
     <wire from="(970,1500)" to="(970,1760)"/>
-    <wire from="(970,1760)" to="(1040,1760)"/>
+    <wire from="(970,1760)" to="(1080,1760)"/>
     <wire from="(970,1760)" to="(970,1910)"/>
     <wire from="(970,280)" to="(970,370)"/>
     <wire from="(970,370)" to="(1020,370)"/>
@@ -3726,6 +3739,9 @@ d009 8000071 1480018 b812 20020001 22e40000 d009 8000071
       <a name="in_width" val="32"/>
       <a name="out_width" val="7"/>
     </comp>
+    <comp lib="0" loc="(820,270)" name="Clock">
+      <a name="facing" val="south"/>
+    </comp>
     <comp lib="1" loc="(610,450)" name="AND Gate">
       <a name="size" val="30"/>
     </comp>
@@ -3897,6 +3913,20 @@ d009 8000071 1480018 b812 20020001 22e40000 d009 8000071
     <wire from="(690,520)" to="(690,760)"/>
     <wire from="(690,520)" to="(720,520)"/>
     <wire from="(690,760)" to="(720,760)"/>
+    <wire from="(700,670)" to="(700,800)"/>
+    <wire from="(700,670)" to="(710,670)"/>
+    <wire from="(700,800)" to="(700,930)"/>
+    <wire from="(700,800)" to="(720,800)"/>
+    <wire from="(700,930)" to="(720,930)"/>
+    <wire from="(710,280)" to="(710,360)"/>
+    <wire from="(710,280)" to="(820,280)"/>
+    <wire from="(710,360)" to="(710,460)"/>
+    <wire from="(710,360)" to="(720,360)"/>
+    <wire from="(710,460)" to="(710,560)"/>
+    <wire from="(710,460)" to="(720,460)"/>
+    <wire from="(710,560)" to="(710,670)"/>
+    <wire from="(710,560)" to="(720,560)"/>
+    <wire from="(710,670)" to="(720,670)"/>
     <wire from="(710,690)" to="(710,780)"/>
     <wire from="(710,780)" to="(720,780)"/>
     <wire from="(780,320)" to="(850,320)"/>
@@ -3905,6 +3935,19 @@ d009 8000071 1480018 b812 20020001 22e40000 d009 8000071
     <wire from="(780,630)" to="(850,630)"/>
     <wire from="(780,760)" to="(860,760)"/>
     <wire from="(780,890)" to="(850,890)"/>
+    <wire from="(820,270)" to="(820,280)"/>
+    <wire from="(820,280)" to="(820,360)"/>
+    <wire from="(820,360)" to="(820,460)"/>
+    <wire from="(820,360)" to="(850,360)"/>
+    <wire from="(820,460)" to="(820,560)"/>
+    <wire from="(820,460)" to="(850,460)"/>
+    <wire from="(820,560)" to="(820,670)"/>
+    <wire from="(820,560)" to="(850,560)"/>
+    <wire from="(820,670)" to="(820,800)"/>
+    <wire from="(820,670)" to="(850,670)"/>
+    <wire from="(820,800)" to="(820,930)"/>
+    <wire from="(820,800)" to="(860,800)"/>
+    <wire from="(820,930)" to="(850,930)"/>
     <wire from="(840,340)" to="(840,440)"/>
     <wire from="(840,340)" to="(850,340)"/>
     <wire from="(840,440)" to="(840,540)"/>
