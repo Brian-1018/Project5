@@ -43,6 +43,40 @@ Calc_loop:
 Underscore1:
     addi $t0, $s7, $0 #puts past result in t0
 
+    addi $v0, $0, 12 # read char
+    syscall
+    addi $t1, $v0, 0 #operand in t1
+
+    addi $v0, $0, 5 # read int
+    syscall
+
+    addi $t2, $v0, 0 # second term in t2
+
+    addi $v0, $0, 12 # read char
+    syscall
+
+    beq $t1, $s0 Underscore2
+
+    beq $t1, $s1 Addition
+    beq $t1, $s2 Subtraction
+    beq $t1, $s3 Division
+    beq $t1, $s4 Multiplication
+    beq $t1, $s6 Modulo
+
+Underscore2:
+    addi $v0, $0, 12 # read char
+    syscall
+
+    addi $t2, $s7, $0 # put past result in t2
+
+    
+    beq $t1, $s1 Addition
+    beq $t1, $s2 Subtraction
+    beq $t1, $s3 Division
+    beq $t1, $s4 Multiplication
+    beq $t1, $s6 Modulo
+
+
 Addition:
     add $s7, $t1, $t2
     addi $v0, $0, 1   #print int
