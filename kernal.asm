@@ -19,7 +19,12 @@ _syscallStart_:
     addi $k1, $0, 12
     beq $v0, $k1, _syscall12 #jump to syscall 12
     # Add branches to any syscalls required for your stars.
-
+    addi $k1, $0, 18
+    beq $v0, $k1, _syscall18 #jump to syscall 18
+    addi $k1, $0, 19
+    beq $v0, $k1, _syscall19 #jump to syscall 19
+    addi $k1, $0, 20
+    beq $v0, $k1, _syscall20 #jump to syscall 20
     # Error state - this should never happen - treat it like an end program
     j _syscall10
 
@@ -49,6 +54,9 @@ _syscall1:
     beq $t0, $0 mainprintintloop # if t0=0, not negative, go to main loop
     addi $t0, $0, 45 # ASCII for -
     sw $t0, -256($0) # print - to terminal
+    addi $t0, $0, -1 #make t0 negative
+    mult $a0, $t0 #make a0 positve
+    mflo $a0
 
     mainprintintloop:
     addi $t0, $0, 10 #t0=10
@@ -85,6 +93,7 @@ _syscall5:
     sw $t2, 8($sp) # save t2 on the stack
     sw $t3, 12($sp) # save t3 on the stack
 
+    addi $t3, $0, 1 # t3 = 1
     firstint:
         lw $t0, -240($0) # checks if any input to keyboard
         beq $t0, $0, firstint # if no, loop
@@ -92,12 +101,14 @@ _syscall5:
     lw $t0, -236($0) # puts first char in t0
     addi $v0, $0, 0 # v0 = 0
     addi $t1, $0, 45 # ASCII for -
-    addi $t3, $0, 1 # t3 = 1
 
     bne $t0, $t1, mainreadintloop # start if not negative
+    sw $0, -240($0) # read next int
     addi $t3, $0, -1 # t3 = -1 if negative
+    j firstint
 
     mainreadintloop:
+    lw $t0, -236($0) # puts char in t0
     addi $t1, $0, 58 # above ASCII 9
     slt $t2, $t0, $t1 # t2=1 if t0<t1, input <58
     beq $t2, $0 endreadint
@@ -161,5 +172,23 @@ _syscall12:
     jr $k0
 
 # extra challenge syscalls go here?
+_syscall18:
+    # speaker control frequency
+    sw $a0, -80($0)
+    sw $a1, -72($0)
+    sw $a2, -64($0)
+    jr $k0
+
+_syscall19:
+    # speaker control volume
+    sw $a0, -76($0)
+    sw $a1, -68($0)
+    sw $a2, -60($0)
+    jr $k0
+
+_syscall20:
+    # update speaker
+    sw $0, -56($0)
+    jr $k0
 
 _syscallEnd_:
