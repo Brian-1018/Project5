@@ -25,6 +25,23 @@ _syscallStart_:
     beq $v0, $k1, _syscall19 #jump to syscall 19
     addi $k1, $0, 20
     beq $v0, $k1, _syscall20 #jump to syscall 20
+    addi $k1, $0, 21
+    beq $v0, $k1, _syscall21 #jump to syscall 21
+    addi $k1, $0, 22
+    beq $v0, $k1, _syscall22 #jump to syscall 22
+    addi $k1, $0, 23
+    beq $v0, $k1, _syscall23 #jump to syscall 23
+    addi $k1, $0, 24
+    beq $v0, $k1, _syscall24 #jump to syscall 24
+    addi $k1, $0, 25
+    beq $v0, $k1, _syscall25 #jump to syscall 25
+    addi $k1, $0, 26
+    beq $v0, $k1, _syscall26 #jump to syscall 26
+    addi $k1, $0, 27
+    beq $v0, $k1, _syscall27 #jump to syscall 27
+    addi $k1, $0, 28
+    beq $v0, $k1, _syscall28 #jump to syscall 28
+
     # Error state - this should never happen - treat it like an end program
     j _syscall10
 
@@ -189,6 +206,51 @@ _syscall19:
 _syscall20:
     # update speaker
     sw $0, -56($0)
+    jr $k0
+
+_syscall21:
+    # update buzzer freq/volume
+    sw $a0, -128($0)
+    sw $a1, -124($0)
+    jr $k0
+
+_syscall22:
+    # turn off/on buzzer
+    sw $0, -120($0)
+    jr $k0
+
+_syscall23:
+    sw $a0, -116($0) #col 1
+    sw $a1, -112($0) #col2
+    sw $a2, -108($0) #col3
+    sw $a3, -104($0) #col4
+    lw $a3, 0($sp)
+    sw $a3, -100($0) #col5
+    jr $k0
+
+_syscall24:
+    # turn off/on row1
+    sw $0, -96($0)
+    jr $k0
+
+_syscall25:
+    # turn off/on row2
+    sw $0, -92($0)
+    jr $k0
+
+_syscall26:
+    # turn off/on row3
+    sw $0, -88($0)
+    jr $k0
+
+_syscall27:
+    # clear
+    sw $0, -84($0)
+    jr $k0
+
+_syscall28:
+    # Turnon/off entire thing
+    lw $0, -84($0)
     jr $k0
 
 _syscallEnd_:
